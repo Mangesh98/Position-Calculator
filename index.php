@@ -12,7 +12,7 @@ $account="";
 $index="";
 $bankNifty="";
 $nifty="";
-$hide="";
+$hide="data";
     if($_SERVER["REQUEST_METHOD"] == "POST") {
     $account = $_POST['account'];
     $dailyRisk = $_POST['dailyRisk'];
@@ -138,9 +138,9 @@ $hide="";
 
       <div class="d-flex justify-content-center">
       <div class="<?php echo $hide ?> info -flex justify-content-between">
-        <div>Lots<label style="margin-left: 142px;"><?php echo $lots;?></label></div>
-        <div>Quantities<label style="margin-left: 59px;"><?php echo $quantities;?></label></div>
-        <div>Loss<label style="color: #F12D2D;margin-left: 142px;">-<?php echo $loss;?></label></div>
+        <div>Lots<label style="margin-left: 143px;"><?php echo $lots;?></label></div>
+        <div>Quantities<label style="margin-left: 80px;"><?php echo $quantities;?></label></div>
+        <div>Loss<label style="color: #F12D2D;margin-left: 134px;">-<?php echo $loss;?></label></div>
       </div>
       </div>
     </div>
