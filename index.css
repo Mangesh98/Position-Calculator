@@ -1,0 +1,14 @@
+.data {
+    display:none;
+  }
+.main{
+    background-color: #f1f1f1;
+    height: 100vh;
+}
+.info{
+    width: 65vh;
+    height: 27vh;
+    font-size: xx-large;
+    border: solid 1px #e3e3e3;
+    padding: 1rem;
+}
