@@ -13,6 +13,8 @@ $index="";
 $bankNifty="";
 $nifty="";
 $hide="data";
+$net_profit="";
+$total_tax="";
     if($_SERVER["REQUEST_METHOD"] == "POST") {
     $account = $_POST['account'];
     $dailyRisk = $_POST['dailyRisk'];
@@ -28,6 +30,17 @@ $hide="data";
     $quantities=$lots*$lotSize;
     $loss=$quantities*$stopLoss;
     $hide="";
+
+    $brokerage = 40;
+    $turnover = ($entryPrice + $stopLossPrice) * $quantities;
+    $stt_total=round($stopLossPrice * $quantities * 0.0005);
+    $etc= 0.00053 * $turnover;
+    $gst=0.18 * ($brokerage + $etc);
+    $sebi_charges =$turnover * 0.000001;
+    $sebi_charges =$sebi_charges + $sebi_charges * 0.18;
+    $stamp_charges =round($entryPrice * $quantities * 0.00003);
+    $total_tax=$brokerage + $stt_total + $etc + $gst + $sebi_charges + $stamp_charges;
+    $net_profit=round(($stopLossPrice - $entryPrice) * $quantities - $total_tax,2);
 }
 ?>
 <!DOCTYPE html>
@@ -138,9 +151,10 @@ $hide="data";
 
       <div class="d-flex justify-content-center">
       <div class="<?php echo $hide ?> info -flex justify-content-between">
-        <div>Lots<label style="margin-left: 143px;"><?php echo $lots;?></label></div>
+        <div>Lots<label style="margin-left: 146px;"><?php echo $lots;?></label></div>
         <div>Quantities<label style="margin-left: 80px;"><?php echo $quantities;?></label></div>
-        <div>Loss<label style="color: #F12D2D;margin-left: 134px;">-<?php echo $loss;?></label></div>
+        <div>Total Tax<label style="color: #F12D2D;margin-left: 97px;"><?php echo round($total_tax,2);?></label></div>
+        <div>Net P&L<label style="color: #F12D2D;margin-left: 92px;"><?php echo $net_profit;?></label></div>
       </div>
       </div>
     </div>

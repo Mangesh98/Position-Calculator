@@ -3,12 +3,12 @@
   }
 .main{
     background-color: #f1f1f1;
-    height: 100vh;
+    height: 105vh;
     width: 104vh;
 }
 .info{
     width: 60vh;
-    height: 23vh;
+    height: 28vh;
     font-size: x-large;
     border: solid 1px #e3e3e3;
     padding: 1rem;
