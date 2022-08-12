@@ -12,6 +12,7 @@ $account="";
 $index="";
 $bankNifty="";
 $nifty="";
+$msg="";
 $hide="data";
 $net_profit="";
 $total_tax="";
@@ -30,19 +31,20 @@ $av="100000";
     $quantity = $stopLoss * $lotSize;
 
     $hq=$account/$entryPrice;
-    $q=round($hq/$lotSize);
+    $q=floor($hq/$lotSize);
     $max_quentity=$q*$lotSize;
 
-    $lots=floor($dailyRisk/$quantity);
-
     
+    if ($quantity!=0) {
 
+    $lots=floor($dailyRisk/$quantity);
     $quantities=$lots*$lotSize;
 
     if($quantities>$max_quentity)
     {
       $lots=$q;
       $quantities=$max_quentity;
+      $msg="(Max Lot)";
     }
 
 
@@ -58,8 +60,9 @@ $av="100000";
     $stamp_charges =round($entryPrice * $quantities * 0.00003);
     $total_tax=$brokerage + $stt_total + $etc + $gst + $sebi_charges + $stamp_charges;
       
-    $dailyRisk=$dailyRisk-$total_tax;
+   $dailyRisk=$dailyRisk-$total_tax;
 
+    $lots=0;
     $loss=0;
     $turnover=0;
     $stt_total=0;
@@ -76,6 +79,7 @@ $av="100000";
     {
       $lots=$q;
       $quantities=$max_quentity;
+      $msg="( Max Lot )";
     }
 
     $loss=$quantities*$stopLoss;
@@ -91,6 +95,8 @@ $av="100000";
 
     
     $hide="";
+    
+  }
   }
 
 ?>
@@ -202,10 +208,11 @@ $av="100000";
 
       <div class="d-flex justify-content-center">
       <div class="<?php echo $hide ?> info -flex justify-content-between">
-        <div>Lots<label style="margin-left: 146px;"><?php echo $lots;?></label></div>
-        <div>Quantities<label style="margin-left: 80px;"><?php echo $quantities;?></label></div>
-        <div>Total Tax<label style="color: #F12D2D;margin-left: 97px;"><?php echo round($total_tax,2);?></label></div>
-        <div>Net P&L<label style="color: #F12D2D;margin-left: 92px;"><?php echo $net_profit;?></label></div>
+        <div>Lots<label style="margin-left: 88px;">:</label><label style="margin-left: 50px;"><?php echo $lots;?><label style="margin-left: 7px;color: red;
+        font-style: italic;font-size: 17px;"><?php echo $msg;?></label></label></div>
+        <div>Quantities<label style="margin-left: 25px;">:</label><label style="margin-left: 52px;"><?php echo $quantities;?></label></div>
+        <div>Total Tax<label style="margin-left: 45px;">:</label><label style="color: #F12D2D;margin-left: 50px;"><?php echo round($total_tax,2);?></label></div>
+        <div>Net P&L<label style="margin-left: 47px;">:</label><label style="color: #F12D2D;margin-left: 46px;"><?php echo $net_profit;?></label></div>
       </div>
       </div>
     </div>
