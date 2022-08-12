@@ -15,23 +15,70 @@ $nifty="";
 $hide="data";
 $net_profit="";
 $total_tax="";
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
+$dr="3000";
+$av="100000";
+
+  if($_SERVER["REQUEST_METHOD"] == "POST") {
     $account = $_POST['account'];
     $dailyRisk = $_POST['dailyRisk'];
+    $dr=$dailyRisk;
+    $av=$account;
     $lotSize = $_POST['lotSize'];
     $entryPrice = $_POST['entryPrice'];
     $stopLossPrice = $_POST['stopLoss'];
-
     $stopLoss= $entryPrice - $stopLossPrice;
     $quantity = $stopLoss * $lotSize;
 
+    $hq=$account/$entryPrice;
+    $q=round($hq/$lotSize);
+    $max_quentity=$q*$lotSize;
+
     $lots=floor($dailyRisk/$quantity);
 
-    $quantities=$lots*$lotSize;
-    $loss=$quantities*$stopLoss;
-    $hide="";
+    
 
+    $quantities=$lots*$lotSize;
+
+    if($quantities>$max_quentity)
+    {
+      $lots=$q;
+      $quantities=$max_quentity;
+    }
+
+
+    $loss=$quantities*$stopLoss;
     $brokerage = 40;
+
+    $turnover = ($entryPrice + $stopLossPrice) * $quantities;
+    $stt_total=round($stopLossPrice * $quantities * 0.0005);
+    $etc= 0.00053 * $turnover;
+    $gst=0.18 * ($brokerage + $etc);
+    $sebi_charges =$turnover * 0.000001;
+    $sebi_charges =$sebi_charges + $sebi_charges * 0.18;
+    $stamp_charges =round($entryPrice * $quantities * 0.00003);
+    $total_tax=$brokerage + $stt_total + $etc + $gst + $sebi_charges + $stamp_charges;
+      
+    $dailyRisk=$dailyRisk-$total_tax;
+
+    $loss=0;
+    $turnover=0;
+    $stt_total=0;
+    $etc=0;
+    $gst=0;
+    $sebi_charges=0;
+    $stamp_charges=0;
+    $total_tax=0;
+
+
+    $lots=floor($dailyRisk/$quantity);
+    $quantities=$lots*$lotSize;
+    if($quantities>$max_quentity)
+    {
+      $lots=$q;
+      $quantities=$max_quentity;
+    }
+
+    $loss=$quantities*$stopLoss;
     $turnover = ($entryPrice + $stopLossPrice) * $quantities;
     $stt_total=round($stopLossPrice * $quantities * 0.0005);
     $etc= 0.00053 * $turnover;
@@ -41,7 +88,11 @@ $total_tax="";
     $stamp_charges =round($entryPrice * $quantities * 0.00003);
     $total_tax=$brokerage + $stt_total + $etc + $gst + $sebi_charges + $stamp_charges;
     $net_profit=round(($stopLossPrice - $entryPrice) * $quantities - $total_tax,2);
-}
+
+    
+    $hide="";
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +127,7 @@ $total_tax="";
           <label for="exampleInputEmail1">Account</label>
           <input
             required
-            value="100000"
+            value="<?php echo $av;?>"
             type="number"
             class="form-control"
             id="account"
@@ -88,7 +139,7 @@ $total_tax="";
           <label for="exampleInputEmail1">Daily Risk</label>
           <input
             required
-            value="3000"
+            value="<?php echo $dr;?>"
             type="number"
             class="form-control"
             id="dailyRisk"
