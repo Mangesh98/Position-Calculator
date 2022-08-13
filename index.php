@@ -13,7 +13,7 @@ $index="";
 $bankNifty="";
 $nifty="";
 $msg="";
-$hide="data";
+$hide="data"; //data
 $net_profit="";
 $total_tax="";
 $dr="3000";
@@ -117,15 +117,19 @@ $av="100000";
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
 
     <title>Position Calculator</title>
   </head>
   <body>
-    <div class="container main p-2 mt-2" >
-        <!-- <div class="row g-3"></div> -->
+    <i onclick="changeIcon(this)" id="mode" class="fa-solid fa-sun"></i>
+    <!-- <i onclick="changeIcon(this)" id="mode" class="fa-solid fa-sun"></i> -->
+    <div class="inputBox">
+    <!-- <div class="container main p-2 mt-2 inputBox" > -->
     <form method = "post" class="">
-        <div class="  d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <h1>Position Calculator</h1>
         </div>
       <div class="form-data">
@@ -146,7 +150,7 @@ $av="100000";
           <input
             required
             value="<?php echo $dr;?>"
-            type="number"
+            type="Number"
             class="form-control"
             id="dailyRisk"
             name="dailyRisk"
@@ -181,7 +185,6 @@ $av="100000";
               class="form-control"
               id="entry"
               aria-describedby="entry"
-              placeholder="Enter Entry Price"
               name="entryPrice"
               step=".01"
             />
@@ -195,24 +198,22 @@ $av="100000";
               class="form-control"
               id="stopLoss"
               aria-describedby="sl"
-              placeholder="Enter Stop Loss"
               name="stopLoss"
               step=".01"
             />
           </div>
 
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" id="btn" class=" btn btn-primary">Submit</button>
         </form>
       </div>
 
 
       <div class="d-flex justify-content-center">
       <div class="<?php echo $hide ?> info -flex justify-content-between">
-        <div>Lots<label style="margin-left: 88px;">:</label><label style="margin-left: 50px;"><?php echo $lots;?><label style="margin-left: 7px;color: red;
-        font-style: italic;font-size: 17px;"><?php echo $msg;?></label></label></div>
-        <div>Quantities<label style="margin-left: 25px;">:</label><label style="margin-left: 52px;"><?php echo $quantities;?></label></div>
-        <div>Total Tax<label style="margin-left: 45px;">:</label><label style="color: #F12D2D;margin-left: 50px;"><?php echo round($total_tax,2);?></label></div>
-        <div>Net P&L<label style="margin-left: 47px;">:</label><label style="color: #F12D2D;margin-left: 46px;"><?php echo $net_profit;?></label></div>
+        <div>Lots<label class="info_label" style="margin-left: 88px;">:</label><label id="lots""><?php echo $lots;?><label id="maxLot"><?php echo $msg;?></label></label></div>
+        <div>Quantities<label class="info_label" style="margin-left: 25px;">:</label><label id="quantities"><?php echo $quantities;?></label></div>
+        <div>Total Tax<label class="info_label" style="margin-left: 45px;">:</label><label id="tax"><?php echo round($total_tax,2);?></label></div>
+        <div>Net P&L<label class="info_label" style="margin-left: 47px;">:</label><label id="net_profit"><?php echo $net_profit;?></label></div>
       </div>
       </div>
     </div>
